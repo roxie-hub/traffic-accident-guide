@@ -10,14 +10,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chosen Palette: Calm Neutral Harmony (Beige, Deep Gray, Soft Grey-Blue, Muted Blue-Green) -->
-    <!-- Application Structure Plan: This single-page application is robustly structured into three primary, scrollable sections: "事故現場緊急處置與安全SOP", "權益與文件處理綜合指南", and "筆錄應對核心策略". Each major section utilizes an accordion component to encapsulate detailed content, providing a progressive disclosure model that prevents information overload. A sticky navigation bar at the top and prominent initial navigation buttons enable quick jumping between these sections. This hierarchical and interactive design ensures users can efficiently access specific information relevant to their immediate needs, optimizing usability in a high-stress scenario. -->
-    <!-- Visualization & Content Choices: The report is entirely text-based; thus, content presentation focuses on structured text and interactive elements. 1. **Accordion Components**: Goal: Organize extensive textual information. Method: Nested HTML structures with JavaScript for toggle functionality. Interaction: Click to expand/collapse. Justification: Reduces cognitive load and enhances readability across devices. 2. **Font Awesome Icons**: Goal: Provide clear visual cues for each section and sub-section. Method: Integrated `<i>` tags for universally recognized symbols. Justification: Improves scannability and quick content identification. 3. **HTML Tables**: Goal: Present comparative and timeline data concisely. Method: Standard HTML `<table>` elements with Tailwind styling. Justification: Facilitates easy comparison and quick lookup of structured data. 4. **Navigation Buttons**: Goal: Provide prominent, direct navigation to main sections from the top of the page. Method: HTML buttons with JavaScript for smooth scrolling. Justification: Addresses user concern about page length by offering immediate access points. All content is presented as text or basic HTML elements, adhering strictly to the "NO SVG/Mermaid" requirement. -->
+    <!-- Application Structure Plan: This single-page application is robustly structured into three primary, scrollable sections: "事故現場緊急處置與安全SOP", "權益與文件處理綜合指南", and "筆錄應對核心策略". Each major section utilizes an accordion component to encapsulate detailed content, providing a progressive disclosure model that prevents information overload. A sticky navigation bar at the top and prominent initial navigation buttons enable quick jumping between these sections. The user's contact information is now prominently displayed in a fixed header for constant visibility. This hierarchical and interactive design ensures users can efficiently access specific information relevant to their immediate needs, optimizing usability in a high-stress scenario. -->
+    <!-- Visualization & Content Choices: The report is entirely text-based; thus, content presentation focuses on structured text and interactive elements. 1. **Accordion Components**: Goal: Organize extensive textual information. Method: Nested HTML structures with JavaScript for toggle functionality. Interaction: Click to expand/collapse. Justification: Reduces cognitive load and enhances readability across devices. 2. **Font Awesome Icons**: Goal: Provide clear visual cues for each section and sub-section. Method: Integrated `<i>` tags for universally recognized symbols. Justification: Improves scannability and quick content identification. 3. **HTML Tables**: Goal: Present comparative and timeline data concisely. Method: Standard HTML `<table>` elements with Tailwind styling. Justification: Facilitates easy comparison and quick lookup of structured data. 4. **Navigation Buttons**: Goal: Provide prominent, direct navigation to main sections from the top of the page. Method: HTML buttons with JavaScript for smooth scrolling. Justification: Addresses user concern about page length by offering immediate access points. 5. **Fixed Contact Info**: Goal: Ensure user's contact details are always visible. Method: A fixed position div at the top. Justification: Enhances user's accessibility for clients. All content is presented as text or basic HTML elements, adhering strictly to the "NO SVG/Mermaid" requirement. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #F8F7F4; /* 淺米色背景 */
             color: #3C3633; /* 深棕色文字 */
+            padding-top: 100px; /* Adjust body padding to account for fixed header */
         }
         /* 定義主要配色變量 */
         :root {
@@ -68,10 +69,30 @@
         .accordion-item.active .accordion-chevron {
             transform: rotate(180deg);
         }
-        .fixed-nav {
-            position: sticky;
+        /* 固定導覽列和聯絡資訊 */
+        .fixed-header-container {
+            position: fixed;
             top: 0;
+            left: 0;
+            width: 100%;
             z-index: 1000;
+            background-color: var(--color-bg-accent-main); /* Match main navigation color */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            padding-bottom: 8px; /* Add some space below contact info */
+        }
+        .contact-info-top {
+            text-align: center;
+            color: white; /* Text color for contact info */
+            padding-top: 8px;
+            padding-bottom: 4px;
+        }
+        .contact-info-top p {
+            font-size: 0.9rem; /* Smaller font for top bar */
+            font-weight: 500;
+        }
+        .contact-info-top .name-phone {
+            font-size: 1rem;
+            font-weight: bold;
         }
         .step-icon {
             font-size: 2xl;
@@ -82,11 +103,17 @@
 </head>
 <body class="bg-cream text-deep-gray">
 
-    <div class="fixed-nav bg-calm-blue-custom shadow-lg w-full py-3">
-        <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
-            <a href="#事故現場處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">現場處理</a>
-            <a href="#權益與文件處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">權益與文件</a>
-            <a href="#筆錄應對核心策略" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">筆錄應對</a>
+    <!-- Fixed Header Container with Contact Info and Navigation -->
+    <div class="fixed-header-container">
+        <div class="contact-info-top">
+            <p>諮詢專線：<span class="name-phone">富邦人壽/產險-潘姿菁 0923-660817</span></p>
+        </div>
+        <div class="fixed-nav bg-calm-blue-custom w-full py-3">
+            <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
+                <a href="#事故現場處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">現場處理</a>
+                <a href="#權益與文件處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">權益與文件</a>
+                <a href="#筆錄應對核心策略" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">筆錄應對</a>
+            </div>
         </div>
     </div>
 
@@ -94,7 +121,7 @@
 
         <header class="text-center mb-8 md:mb-12 pt-8">
             <h1 class="text-3xl md:text-4xl font-bold text-calm-blue-custom mb-2">交通事故處理綜合指南與筆錄應對</h1>
-            <p class="text-medium-gray text-lg">無人傷亡且車輛尚能行駛時，可依內政部警政署「現場處理-放撥劃移等-五字訣」進行，確保安全、完整紀錄並維護交通暢通。</p>
+            <p class="text-medium-gray text-lg">無人傷亡且車輛尚能行駛時，可依內政部警政署「現場處理五字訣-放撥劃移等」進行，確保安全、完整紀錄並維護交通暢通。</p>
         </header>
 
         <main class="bg-white rounded-xl shadow-calm overflow-hidden">
@@ -145,13 +172,9 @@
             </section>
         </main>
 
-        <footer class="text-center mt-12 py-8 bg-light-blue-custom rounded-xl shadow-calm">
-            <p class="text-medium-gray text-sm mb-2">本指南僅供參考，實際情況請依專業人士及法律規定為準。</p>
-            <div class="text-deep-gray text-base mt-4">
-                <p>如有任何問題或需要進一步諮詢，歡迎聯絡：</p>
-                <p class="font-bold text-calm-blue-custom text-lg mt-2">富邦人壽/產險-潘姿菁</p>
-                <p class="text-sm mt-1">0923-660817</p>
-            </div>
+        <!-- Original footer content removed as it's now in the fixed header -->
+        <footer class="text-center mt-12 text-gray-400 text-sm">
+            <p>本指南僅供參考，實際情況請依專業人士及法律規定為準。</p>
         </footer>
     </div>
 
@@ -479,16 +502,16 @@
                 content: `
                     <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">6.1 「無人受傷就不算肇事逃逸」的迷思</h4>
                     <ul class="list-disc list-inside space-y-2 text-medium-gray mb-6">
-                        <li><strong>法律界定</strong>：根據刑法第 185-4 條，<strong>肇事逃逸罪</strong>的成立要件是「致人受傷或死亡而逃逸」。若事故未造成人身傷亡，則不構成此刑事罪名。</li>
+                        <li><strong>法律界定</strong>：根據刑法第 185-4 條，**肇事逃逸罪**的成立要件是「致人受傷或死亡而逃逸」。若事故未造成人身傷亡，則不構成此刑事罪名。</li>
                         <li><strong>行政罰則</strong>：然而，這不代表可以逕自離開現場。若僅造成財物損害（如車損），逃逸仍違反《道路交通管理處罰條例》第 62 條，將處新臺幣 1,000 元以上 3,000 元以下罰鍰，並吊扣駕駛執照。</li>
-                        <li><strong>法律洞察</strong>：刑事上的「肇事逃逸罪」屬於<strong>非告訴乃論</strong>。這意味著一旦被檢察官得知犯罪事實並提起公訴，<strong>即使與被害人達成和解，也無法撤銷告訴</strong>，只能在量刑時作為從輕發落的參考。這點與「過失傷害」罪的告訴乃論性質有根本區別，凸顯了肇事逃逸行為在法律上的嚴重性。</li>
+                        <li><strong>法律洞察</strong>：刑事上的「肇事逃逸罪」屬於<strong>非告訴乃論</strong>。這意味著一旦被檢察官得知犯罪事實並提起公訴，**即使與被害人達成和解，也無法撤銷告訴**，只能在量刑時作為從輕發落的參考。這點與「過失傷害」罪的告訴乃論性質有根本區別，凸顯了肇事逃逸行為在法律上的嚴重性。</li>
                     </ul>
                     <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">6.2 私下和解的潛在陷阱</h4>
                     <ul class="list-disc list-inside space-y-2 text-medium-gray mb-6">
                         <li><strong>風險揭示</strong>：
                             <ul class="list-circle list-inside ml-6 mt-1 space-y-1 text-sm">
                                 <li><strong>口頭承諾無法律強制力</strong>：口頭和解不具備法律強制執行力，對方事後反悔將求償無門。</li>
-                                <li><strong>賠償金額被低估</strong>：許多人在和解時僅考慮有單據的醫療費與修車費，而忽略了<strong>精神慰撫金、工作損失、營業損失</strong>等無單據但可求償的項目，導致賠償金額被低估。</li>
+                                <li><strong>賠償金額被低估</strong>：許多人在和解時僅考慮有單據的醫療費與修車費，而忽略了**精神慰撫金、工作損失、營業損失**等無單據但可求償的項目，導致賠償金額被低估。</li>
                                 <li><strong>和解書條款不當</strong>：和解書若未明確註明「<strong>本次賠償已包含強制險理賠金額</strong>」，可能導致對方日後向保險公司重複請領強制險理賠金。</li>
                             </ul>
                         </li>
@@ -708,4 +731,3 @@
     </script>
 </body>
 </html>
-
