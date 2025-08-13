@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chosen Palette: Calm Neutral Harmony (Beige, Deep Gray, Soft Grey-Blue, Muted Blue-Green) -->
     <!-- Application Structure Plan: This single-page application is robustly structured into three primary, scrollable sections: "事故現場緊急處置與安全SOP", "筆錄應對核心策略", and "權益與文件處理綜合指南". Each major section utilizes an accordion component to encapsulate detailed content, providing a progressive disclosure model that prevents information overload. A sticky navigation bar at the top and prominent initial navigation buttons enable quick jumping between these sections. The user's contact information is now prominently displayed in a fixed header for constant visibility. This hierarchical and interactive design ensures users can efficiently access specific information relevant to their immediate needs, optimizing usability in a high-stress scenario. -->
@@ -114,17 +115,47 @@
         .fixed-nav button {
             background-color: var(--color-bg-primary-soft);
             color: var(--color-text-accent-main);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.75rem; /* Adjusted padding for smaller screens */
             border-radius: 0.5rem;
             font-weight: bold;
             transition: all 0.2s ease-in-out;
             border: 2px solid var(--color-text-accent-main); /* Add border for button look */
+            font-size: 0.8rem; /* Smaller font size for buttons on mobile */
         }
         .fixed-nav button:hover {
             background-color: var(--color-bg-accent-main);
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        /* Flexbox for fixed nav buttons to keep them in one row on mobile */
+        .fixed-nav .flex-wrap {
+            flex-wrap: nowrap; /* Prevent wrapping */
+            overflow-x: auto; /* Allow horizontal scrolling if buttons are too wide */
+            justify-content: space-between; /* Distribute space evenly */
+        }
+        /* Ensure consistent icon size within buttons */
+        .fixed-nav button .fas {
+            font-size: 0.9rem;
+            margin-right: 0.25rem;
+        }
+
+        /* Adjust button width for smaller screens to ensure they fit */
+        @media (max-width: 767px) {
+            .fixed-nav button {
+                flex-shrink: 0; /* Prevent buttons from shrinking too much */
+                width: calc(33.33% - 0.75rem); /* Roughly one-third width with spacing */
+                text-align: center;
+                padding: 0.5rem 0.25rem; /* Further reduced padding for very small screens */
+            }
+            .fixed-nav .flex-wrap {
+                gap: 0.5rem; /* Reduced gap between buttons on mobile */
+                padding: 0 0.5rem; /* Added padding to flex-wrap itself */
+            }
+            .contact-info-top p {
+                font-size: 0.8rem; /* Even smaller font for contact info on very small screens */
+            }
         }
     </style>
 </head>
@@ -139,13 +170,13 @@
         <div class="fixed-nav bg-calm-blue-custom w-full py-3">
             <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
                 <button onclick="scrollToSection('事故現場處理')">
-                    <i class="fas fa-car-crash mr-2"></i>現場處理
+                    <i class="fas fa-car-crash"></i>現場處理
                 </button>
                 <button onclick="scrollToSection('筆錄應對核心策略')">
-                    <i class="fas fa-clipboard-list mr-2"></i>筆錄應對
+                    <i class="fas fa-clipboard-list"></i>筆錄應對
                 </button>
                 <button onclick="scrollToSection('權益與文件處理')">
-                    <i class="fas fa-balance-scale mr-2"></i>權益與文件
+                    <i class="fas fa-balance-scale"></i>權益與文件
                 </button>
             </div>
         </div>
