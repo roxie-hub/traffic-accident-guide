@@ -110,6 +110,22 @@
         .police-qa-accordion-item .arrow-icon.rotated {
             transform: rotate(180deg);
         }
+        /* Updated styles for navigation buttons */
+        .fixed-nav button {
+            background-color: var(--color-bg-primary-soft);
+            color: var(--color-text-accent-main);
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            transition: all 0.2s ease-in-out;
+            border: 2px solid var(--color-text-accent-main); /* Add border for button look */
+        }
+        .fixed-nav button:hover {
+            background-color: var(--color-bg-accent-main);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body class="bg-cream text-deep-gray">
@@ -118,12 +134,19 @@
     <div class="fixed-header-container">
         <div class="contact-info-top">
             <p>諮詢專線：<span class="name-phone">富邦人壽/產險-潘姿菁 0923-660817</span></p>
+            <p>富邦產險服務電話: 0800-009888</p>
         </div>
         <div class="fixed-nav bg-calm-blue-custom w-full py-3">
             <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
-                <a href="#事故現場處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">現場處理</a>
-                <a href="#筆錄應對核心策略" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">筆錄應對</a>
-                <a href="#權益與文件處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">權益與文件</a>
+                <button onclick="scrollToSection('事故現場處理')">
+                    <i class="fas fa-car-crash mr-2"></i>現場處理
+                </button>
+                <button onclick="scrollToSection('筆錄應對核心策略')">
+                    <i class="fas fa-clipboard-list mr-2"></i>筆錄應對
+                </button>
+                <button onclick="scrollToSection('權益與文件處理')">
+                    <i class="fas fa-balance-scale mr-2"></i>權益與文件
+                </button>
             </div>
         </div>
     </div>
@@ -136,7 +159,7 @@
         </header>
 
         <main class="bg-white rounded-xl shadow-calm overflow-hidden">
-            <!-- Main Navigation Buttons Section -->
+            <!-- Main Navigation Buttons Section (These are the big buttons in the middle of the page) -->
             <section class="mb-12 p-6">
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
                     <button onclick="scrollToSection('事故現場處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
@@ -278,7 +301,7 @@
                 title: '四、移 — 移開車輛',
                 icon: 'fa-car-side',
                 content: `
-                    <div class="space-y-4">
+                    <div class="space-y-4 mb-4">
                         <div>
                             <h4 class="font-bold text-lg mb-2" style="color:var(--color-green-success);">無人傷亡且車輛可行駛</h4>
                             <p>標繪定位後，立即移至路邊不妨礙交通之處。若不移車致阻礙交通，警方可依《道路交通管理處罰條例》第62條第2項舉發。</p>
@@ -287,6 +310,12 @@
                             <h4 class="font-bold text-lg mb-2" style="color:var(--color-red-warning);">有人傷亡事故</h4>
                             <p>因屬刑案，須保持現場完整，待救護人員處理後再標繪。若雙方同意，可標繪後移車；任一方不同意，不得移動跡證。</p>
                         </div>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg border border-gray-300">
+                        <h4 class="font-bold text-lg mb-2 text-calm-blue-custom" style="font-size: 1.25rem;">拖吊資訊：</h4>
+                        <p class="text-medium-gray text-lg mb-1"><strong>富邦道路救援:</strong></p>
+                        <p class="text-medium-gray text-base ml-4">網址: <a href="https://b2c.518fb.com/FubonEC/benefit_traffic_step1.jsp" target="_blank" class="text-blue-600 hover:underline">https://b2c.518fb.com/FubonEC/benefit_traffic_step1.jsp</a></p>
+                        <p class="text-medium-gray text-base ml-4">電話: 0800-000911</p>
                     </div>
                 `
             },
@@ -373,6 +402,44 @@
                 `
             },
             {
+                title: '第三章：公私場域事故處理的法律與實務差異',
+                icon: 'fa-map',
+                content: `
+                    <p class="mb-4">並非所有車禍都發生在一般道路上，如賣場停車場、大樓地下室、私人土地等。這些場所的事故處理流程與法律適用，與公有道路有著顯著差異，若不了解其中區別，可能導致權益受損。</p>
+                    <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">3.1 道路交通管理處罰條例的適用範圍：公有道路定義</h4>
+                    <p class="mb-4 text-medium-gray">《道路交通管理處罰條例》中的「道路」是指公路、街道、巷弄、廣場、騎樓、走廊或其他供公眾通行之地方。只有在此範圍內發生的事故，才能適用相關的交通法規與行政罰則。</p>
+                    <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">3.2 私人土地（如停車場、社區）車禍的特殊性與處理指南</h4>
+                    <p class="mb-4 text-medium-gray">在私人土地（如賣場停車場、大樓地下室等非對外開放的場所）發生車禍，因其不屬於上述法律所定義的「道路」，故不適用《道路交通管理處罰條例》。這意味著：</p>
+                    <ul class="list-disc list-inside space-y-2 text-medium-gray mb-6">
+                        <li><strong>報警處理</strong>：仍可撥打 110 報案。警方會到場做簡易處理，但<strong>不會提供「道路交通事故當事人登記聯單」</strong>，只會提供一張證明單。</li>
+                        <li><strong>文件申請</strong>：無法申請初步分析研判表或行車事故鑑定，因為這些文件僅限於道路交通事故。</li>
+                        <li><strong>法律責任</strong>：雖然無關交通法規，但若造成人員受傷，仍可能面臨<strong>刑法上的「過失傷害罪」</strong>追究。若僅為車輛損壞，則屬於民事求償範疇。</li>
+                        <li><strong>保險理賠</strong>：保險公司會根據投保內容進行理賠，但強制險通常不理賠車損部分。因此，在私人場域發生事故，任意險的保障更顯重要。</li>
+                    </ul>
+                    <h4 class="font-bold text-lg mb-4 text-calm-blue-custom">3.3 公有道路與私人土地車禍處理核心差異比較</h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse">
+                            <thead>
+                                <tr>
+                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">項目</th>
+                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">公有道路車禍</th>
+                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">私人土地車禍</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-medium-gray">
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否提供登記聯單</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗（僅提供證明單）</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否可申請初判表</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否可申請車禍鑑定</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>警察是否會開罰單</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>肇事逃逸相關罰則</strong></td><td class="p-3 border border-calm-blue-custom">適用刑法與行政罰則</td><td class="p-3 border border-calm-blue-custom">僅適用刑法過失傷害，不適用《道路交通管理處罰條例》</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>法律責任</strong></td><td class="p-3 border border-calm-blue-custom">交通行政罰則、民事、刑事責任皆適用</td><td class="p-3 border border-calm-blue-custom">主要為民事與刑事責任</td></tr>
+                                <tr><td class="p-3 border border-calm-blue-custom"><strong>保險理賠</strong></td><td class="p-3 border border-calm-blue-custom">強制險與任意險皆依約理賠</td><td class="p-3 border border-calm-blue-custom">強制險與任意險皆依約理賠，但強制險不賠車損</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                `
+            },
+            {
                 title: '第四章：從和解到訴訟—多元爭議解決途徑深度解析',
                 icon: 'fa-balance-scale',
                 content: `
@@ -443,7 +510,7 @@
                                 <li><strong>第三人責任險</strong>：保障被保險人對車禍事故中「第三人」所應負的賠償責任，包含人身傷害與財物損失。當強制險給付金額不足時，可由第三人責任險補足。</li>
                                 <li><strong>車體險</strong>：保障被保險人自身車輛的損失，可依據保險種類（甲、乙、丙式）與預算選擇投保。</li>
                                 <li><strong>超額責任險</strong>：在第三人責任險保額不足時，提供額外保障，尤其適合經常行駛於高價車輛較多區域的駕駛人。</li>
-                            </ul>
+                                </ul>
                         </li>
                         <li><strong>理賠協商與和解</strong>：在和解談判過程中，應讓保險公司的理賠專員參與，或至少在和解前與其確認賠償金額與範疇。這能避免因承諾過高而需自行負擔差額，或因和解條件不當而影響理賠權益。</li>
                     </ul>
@@ -693,10 +760,10 @@
 
 
         // Smooth scroll for fixed nav links and new main nav buttons
-        document.querySelectorAll('.fixed-nav a, .container > section > div > button').forEach(element => {
+        document.querySelectorAll('.fixed-nav button').forEach(element => { // Changed to button to select the newly styled buttons
             element.addEventListener('click', function (e) {
                 e.preventDefault();
-                const targetId = this.getAttribute('href') ? this.getAttribute('href').substring(1) : this.onclick.toString().match(/scrollToSection\('([^']+)'\)/)[1];
+                const targetId = this.onclick.toString().match(/scrollToSection\('([^']+)'\)/)[1]; // Get targetId from onclick attribute for buttons
                 scrollToSection(targetId);
             });
         });
