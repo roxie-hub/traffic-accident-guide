@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <!-- Chosen Palette: Calm Neutral Harmony (Beige, Deep Gray, Soft Grey-Blue, Muted Blue-Green) -->
-    <!-- Application Structure Plan: This single-page application is robustly structured into three primary, scrollable sections: "事故現場緊急處置與安全SOP", "權益與文件處理綜合指南", and "筆錄應對核心策略". Each major section utilizes an accordion component to encapsulate detailed content, providing a progressive disclosure model that prevents information overload. A sticky navigation bar at the top and prominent initial navigation buttons enable quick jumping between these sections. The user's contact information is now prominently displayed in a fixed header for constant visibility. This hierarchical and interactive design ensures users can efficiently access specific information relevant to their immediate needs, optimizing usability in a high-stress scenario. -->
+    <!-- Application Structure Plan: This single-page application is robustly structured into three primary, scrollable sections: "事故現場緊急處置與安全SOP", "筆錄應對核心策略", and "權益與文件處理綜合指南". Each major section utilizes an accordion component to encapsulate detailed content, providing a progressive disclosure model that prevents information overload. A sticky navigation bar at the top and prominent initial navigation buttons enable quick jumping between these sections. The user's contact information is now prominently displayed in a fixed header for constant visibility. This hierarchical and interactive design ensures users can efficiently access specific information relevant to their immediate needs, optimizing usability in a high-stress scenario. -->
     <!-- Visualization & Content Choices: The report is entirely text-based; thus, content presentation focuses on structured text and interactive elements. 1. **Accordion Components**: Goal: Organize extensive textual information. Method: Nested HTML structures with JavaScript for toggle functionality. Interaction: Click to expand/collapse. Justification: Reduces cognitive load and enhances readability across devices. 2. **Font Awesome Icons**: Goal: Provide clear visual cues for each section and sub-section. Method: Integrated `<i>` tags for universally recognized symbols. Justification: Improves scannability and quick content identification. 3. **HTML Tables**: Goal: Present comparative and timeline data concisely. Method: Standard HTML `<table>` elements with Tailwind styling. Justification: Facilitates easy comparison and quick lookup of structured data. 4. **Navigation Buttons**: Goal: Provide prominent, direct navigation to main sections from the top of the page. Method: HTML buttons with JavaScript for smooth scrolling. Justification: Addresses user concern about page length by offering immediate access points. 5. **Fixed Contact Info**: Goal: Ensure user's contact details are always visible. Method: A fixed position div at the top. Justification: Enhances user's accessibility for clients. All content is presented as text or basic HTML elements, adhering strictly to the "NO SVG/Mermaid" requirement. -->
     <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
     <style>
@@ -60,7 +60,7 @@
             padding: 0 1.5rem;
         }
         .accordion-item.active .accordion-content {
-            max-height: 3000px; /* Adjusted for larger content */
+            max-height: 9999px; /* Adjusted to a very large value for full content display */
             padding: 1.5rem 1.5rem;
         }
         .accordion-chevron {
@@ -99,6 +99,17 @@
             width: 2rem;
             color: var(--color-text-accent-main);
         }
+
+        /* 警察問答區塊的特殊樣式 */
+        .police-qa-accordion-item .accordion-button {
+            border-bottom: 1px solid #dae2e6; /* 更淺的邊框顏色 */
+        }
+        .police-qa-accordion-item:last-child .accordion-button {
+            border-bottom: none; /* 最後一個沒有底邊框 */
+        }
+        .police-qa-accordion-item .arrow-icon.rotated {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body class="bg-cream text-deep-gray">
@@ -111,8 +122,8 @@
         <div class="fixed-nav bg-calm-blue-custom w-full py-3">
             <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
                 <a href="#事故現場處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">現場處理</a>
-                <a href="#權益與文件處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">權益與文件</a>
                 <a href="#筆錄應對核心策略" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">筆錄應對</a>
+                <a href="#權益與文件處理" class="text-white text-lg font-bold hover:text-blue-100 transition-colors py-1">權益與文件</a>
             </div>
         </div>
     </div>
@@ -131,11 +142,11 @@
                     <button onclick="scrollToSection('事故現場處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
                         <i class="fas fa-car-crash mr-3"></i>事故現場處理
                     </button>
-                    <button onclick="scrollToSection('權益與文件處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
-                        <i class="fas fa-balance-scale mr-3"></i>權益與文件處理
-                    </button>
                     <button onclick="scrollToSection('筆錄應對核心策略')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
                         <i class="fas fa-clipboard-list mr-3"></i>筆錄應對核心策略
+                    </button>
+                    <button onclick="scrollToSection('權益與文件處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                        <i class="fas fa-balance-scale mr-3"></i>權益與文件處理
                     </button>
                 </div>
             </section>
@@ -151,23 +162,23 @@
 
             <hr class="my-8 border-t-2 border-calm-blue-custom mx-auto w-1/3">
 
-            <!-- 權益與文件處理區塊 -->
-            <section id="權益與文件處理" class="p-6 md:p-8">
-                <h2 class="text-2xl font-bold text-center mb-6 text-calm-blue-custom">第二部分：權益與文件處理綜合指南</h2>
-                <p class="text-medium-gray mb-8">事故現場的應對為後續處理奠定了基礎，而後續的法律程序與理賠，則高度依賴於官方文件的取得與解讀。這些文件不僅是還原事故真相的依據，也是當事人主張自身權益的籌碼。</p>
-                <div id="rights-and-docs-accordion-container">
-                    <!-- Rights and documents accordion items will be generated by JS -->
+            <!-- 筆錄應對區塊 (新的順序) -->
+            <section id="筆錄應對核心策略" class="p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-calm-blue-custom">第二部分：筆錄應對核心策略與後續指南</h2>
+                <p class="text-medium-gray mb-8">警方筆錄是釐清肇事責任的重要依據，筆錄中的每一個字都可能影響最終的判斷。本章將引導你如何在警詢過程中冷靜應對、有效陳述，避免因一時口誤或不諳法律而損害自身權益，並提供筆錄後的後續流程指引。</p>
+                <div id="statement-handling-accordion-container">
+                    <!-- Statement handling accordion items will be generated by JS -->
                 </div>
             </section>
 
             <hr class="my-8 border-t-2 border-calm-blue-custom mx-auto w-1/3">
 
-            <!-- 筆錄應對區塊 -->
-            <section id="筆錄應對核心策略" class="p-6 md:p-8">
-                <h2 class="text-2xl font-bold text-center mb-6 text-calm-blue-custom">第三部分：筆錄應對核心策略與後續指南</h2>
-                <p class="text-medium-gray mb-8">警方筆錄是釐清肇事責任的重要依據，筆錄中的每一個字都可能影響最終的判斷。本章將引導你如何在警詢過程中冷靜應對、有效陳述，避免因一時口誤或不諳法律而損害自身權益，並提供筆錄後的後續流程指引。</p>
-                <div id="statement-handling-accordion-container">
-                    <!-- Statement handling accordion items will be generated by JS -->
+            <!-- 權益與文件處理區塊 (新的順序) -->
+            <section id="權益與文件處理" class="p-6 md:p-8">
+                <h2 class="text-2xl font-bold text-center mb-6 text-calm-blue-custom">第三部分：權益與文件處理綜合指南</h2>
+                <p class="text-medium-gray mb-8">事故現場的應對為後續處理奠定了基礎，而後續的法律程序與理賠，則高度依賴於官方文件的取得與解讀。這些文件不僅是還原事故真相的依據，也是當事人主張自身權益的籌碼。</p>
+                <div id="rights-and-docs-accordion-container">
+                    <!-- Rights and documents accordion items will be generated by JS -->
                 </div>
             </section>
         </main>
@@ -356,43 +367,6 @@
                                 <tr><td class="p-3 border border-calm-blue-custom">道路交通事故初步分析研判表</td><td class="p-3 border border-calm-blue-custom">事故發生 30 日後</td><td class="p-3 border border-calm-blue-custom">處理單位（分局交通隊）</td><td class="p-3 border border-calm-blue-custom">不具法律終局效力，僅供參考</td><td class="p-3 border border-calm-blue-custom">和解談判、保險理賠初步依據</td></tr>
                                 <tr><td class="p-3 border border-calm-blue-custom">車輛行車事故鑑定報告</td><td class="p-3 border border-calm-blue-custom">事故發生 6 個月內可申請</td><td class="p-3 border border-calm-blue-custom">車輛行車事故鑑定委員會</td><td class="p-3 border border-calm-blue-custom">具備專業公信力，法院常採納</td><td class="p-3 border border-calm-blue-custom">釐清肇事責任、訴訟主要依據</td></tr>
                                 <tr><td class="p-3 border border-calm-blue-custom">鑑定覆議報告</td><td class="p-3 border border-calm-blue-custom">收到鑑定報告 30 日後可申請</td><td class="p-3 border border-calm-blue-custom">交通部公路局車輛行車事故鑑定覆議會</td><td class="p-3 border border-calm-blue-custom">具備專業公信力，法院常採納</td><td class="p-3 border border-calm-blue-custom">重新檢視鑑定結果</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                `
-            },
-            {
-                title: '第三章：公私場域事故處理的法律與實務差異',
-                icon: 'fa-map-marked-alt',
-                content: `
-                    <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">3.1 道路交通管理處罰條例的適用範圍：公有道路定義</h4>
-                    <p class="mb-4">《道路交通管理處罰條例》中的「道路」是指公路、街道、巷弄、廣場、騎樓、走廊或其他供公眾通行之地方。只有在此範圍內發生的事故，才能適用相關的交通法規與行政罰則。</p>
-                    <h4 class="font-bold text-lg mb-2 text-calm-blue-custom">3.2 私人土地（如停車場、社區）車禍的特殊性與處理指南</h4>
-                    <p class="mb-4">在私人土地（如賣場停車場、大樓地下室等非對外開放的場所）發生車禍，因其不屬於上述法律所定義的「道路」，故不適用《道路交通管理處罰條例》。這意味著：</p>
-                    <ul class="list-disc list-inside space-y-2 text-medium-gray mb-6">
-                        <li><strong>報警處理</strong>：仍可撥打 110 報案。警方會到場做簡易處理，但<strong>不會提供「道路交通事故當事人登記聯單」</strong>，只會提供一張證明單。</li>
-                        <li><strong>文件申請</strong>：無法申請初步分析研判表或行車事故鑑定，因為這些文件僅限於道路交通事故。</li>
-                        <li><strong>法律責任</strong>：雖然無關交通法規，但若造成人員受傷，仍可能面臨<strong>刑法上的「過失傷害罪」</strong>追究。若僅為車輛損壞，則屬於民事求償範疇。</li>
-                        <li><strong>保險理賠</strong>：保險公司會根據投保內容進行理賠，但強制險通常不理賠車損部分。因此，在私人場域發生事故，任意險的保障更顯重要。</li>
-                    </ul>
-                    <h4 class="font-bold text-lg mb-4 text-calm-blue-custom">3.3 公有道路與私人土地車禍處理核心差異比較</h4>
-                    <div class="overflow-x-auto">
-                        <table class="w-full text-left border-collapse">
-                            <thead>
-                                <tr>
-                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">項目</th>
-                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">公有道路車禍</th>
-                                    <th class="p-3 font-semibold uppercase bg-light-blue-custom text-medium-gray border border-calm-blue-custom">私人土地車禍</th>
-                                </tr>
-                            </thead>
-                            <tbody class="text-medium-gray">
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否提供登記聯單</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗（僅提供證明單）</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否可申請初判表</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>是否可申請車禍鑑定</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>警察是否會開罰單</strong></td><td class="p-3 border border-calm-blue-custom">✓</td><td class="p-3 border border-calm-blue-custom">✗</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>肇事逃逸相關罰則</strong></td><td class="p-3 border border-calm-blue-custom">適用刑法與行政罰則</td><td class="p-3 border border-calm-blue-custom">僅適用刑法過失傷害，不適用《道路交通管理處罰條例》</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>法律責任</strong></td><td class="p-3 border border-calm-blue-custom">交通行政罰則、民事、刑事責任皆適用</td><td class="p-3 border border-calm-blue-custom">主要為民事與刑事責任</td></tr>
-                                <tr><td class="p-3 border border-calm-blue-custom"><strong>保險理賠</strong></td><td class="p-3 border border-calm-blue-custom">強制險與任意險皆依約理賠</td><td class="p-3 border border-calm-blue-custom">強制險與任意險皆依約理賠，但強制險不賠車損</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -596,15 +570,20 @@
         const policeQaData = [
             { q: "Q1: 您目前意識是否清楚？當時肇事時間、地點？", goal: "確認基本事實，是後續調閱證據的基礎。", points: ["仔細核對警方記錄的時間與地點是否精確。", "若不確定，應誠實告知，避免提供錯誤資訊。"], trap: "時間或地點的微小錯誤，可能導致調不到關鍵的監視器畫面。" },
             { q: "Q2: 請詳述肇事經過、行向、行駛車道？", goal: "建立客觀的事故發生輪廓。", points: ["用中性、客觀的語氣描述，如「我沿著內側車道直行」。", "清楚說明自己與對方的行駛方向與車道。"], trap: "使用「我猜」、「我覺得」等主觀詞語，會被視為自白，影響責任判斷。" },
+            { q: "Q3: 肇事路段速限？您的行車時速？", goal: "確認是否有超速或未依規定行駛的情形。", points: ["誠實回答，若有超速則會被員警開罰，但不可謊報以避免其他法律問題。", "若無法準確回覆，可告知約略範圍或「依速限行駛」。"], trap: "謊報時速，若與行車紀錄器或其他證據不符，將導致證詞失去可信度。" },
             { q: "Q4: 當時天候？路況？視線？有無障礙物？", goal: "了解外在環境因素是否影響事故。", points: ["主動告知任何特殊狀況，如「路面濕滑」、「有施工圍籬」、「號誌故障」等。"], trap: "若未提及路面油漬、坑洞等狀況，等於放棄一個證明自己已盡注意義務的機會。" },
+            { q: "Q5: 您有無開啟頭燈、霧燈？或使用手機、飲食、抽菸、講話、聽音樂？", goal: "判斷是否有違規行為或分心駕駛情事。", points: ["誠實回答。若有違規，可能會被開罰單。", "強調自己沒有分心駕駛。"], trap: "隱瞞實情被發現，將影響警方對您的信任，並可能導致更多罰則。" },
             { q: "Q6: 當時發現對肇車輛時雙方相距約幾公尺？採取何種反應措施？", goal: "判斷您是否有足夠的反應時間與空間。", points: ["若無法準確判斷距離，務必回答「無法準確估計」。", "具體說明反應措施，如「我立刻踩煞車並向右打方向盤」。"], trap: "隨意估計的數字若與現場跡證（如煞車痕）推算結果不符，會嚴重降低您證詞的可信度。" },
             { q: "Q7: 發生碰撞前時速約達每小時幾公里？", goal: "判斷是否有超速或車速過快的情形。", points: ["若未超速，可回答「在速限內行駛」。", "同樣地，若不確定精確數字，就不要隨意回答。"], trap: "即使沒超速，但若口述車速比實際快，對方可能會主張您反應不及或未保持安全距離。" },
+            { q: "Q8: 您有無注意到對肇車輛？對肇車輛有無注意您車輛？", goal: "判斷雙方是否有疏失，例如未注意車前狀況。", points: ["回答您觀察到的事實，例如「我注意到對方的車速很快，並打方向燈要變換車道」。", "對於對方是否注意到您，可回答「不確定」或「根據我的觀察，對方似乎沒有注意到我」。"], trap: "過於主觀的揣測對方意圖，可能使您的陳述顯得不夠客觀，影響可信度。" },
             { q: "Q9: 有無飲酒？", goal: "確認是否涉及酒後駕車的刑事犯罪。", points: ["誠實回答，並務必配合酒測。", "若有飲酒，保險公司可能不予理賠。"], trap: "拒絕酒測會面臨高額罰款並吊銷駕照，法律後果嚴重。" },
+            { q: "Q10: 您或對肇車輛有無受損？受損情形為何？", goal: "確認事故造成的財物損失。", points: ["詳細描述您車輛的受損部位、程度，例如「左前保險桿凹陷、車燈破裂」。", "描述您觀察到的對方車輛受損情況，但不要誇大或猜測。"], trap: "描述不清或遺漏損壞部位，可能導致後續理賠金額不足。誇大損失則可能涉及詐欺。" },
             { q: "Q11: 有無繫（戴）安全帶（帽）？", goal: "確認您是否盡到保護自己的基本義務。", points: ["誠實回答。"], trap: "即使對方100%肇責，若您因未繫安全帶導致傷勢加重，賠償金額可能會被「與有過失」原則打折。" },
-            { q: "Q14: 您（乘客）是否受傷？受傷情形為何？", goal: "確認事故是否造成人員傷亡，涉及刑事責任。", points: ["即使當下感覺沒事，也應回答「感覺身體不適，需要去醫院檢查」。", "務必當天就醫並開立診斷證明。"], trap: "當下回答「沒受傷」，事後才發現有內傷或痠痛，將極難證明傷勢與本次車禍有關，影響求償與理賠。" },
-            { q: "Q16: 傷害係告訴乃論...您是否瞭解？", goal: "依法告知您的法律權利。", points: ["回答「瞭解」。", "務必記住，若有受傷，可在「知悉犯人時起」6個月內提出過失傷害告訴。"], trap: "誤以為「保留法律追訴權」有法律效力，或錯過6個月告訴期，將喪失透過刑事程序向對方施壓以利和解的籌碼。" },
-            { q: "Q17: ...現場（草）圖是否正確？", goal: "確認您對警方繪製的事故現場圖沒有異議。", points: ["仔細核對圖上的車輛位置、行向、標線、撞擊點是否與事實相符。", "有任何不符之處，應立即向警方反應並要求更正。"], trap: "草圖是初判表和鑑定的重要依據，一旦簽名確認，錯誤的現場圖將對您極為不利。" },
-            { q: "Q18: 以上所言是否實在？有無補充？", goal: "給您最後確認及補充說明的機會。", points: ["再次快速瀏覽全部筆錄內容。", "若有任何遺漏或想強調的事，可在此時補充，例如「我想補充，對方的車速非常快」。"], trap: "輕率地回答「沒有」並簽名，等於放棄了最後補救筆錄內容的機會。" }
+            { q: "Q12: 您（乘客）是否受傷？受傷情形為何？", goal: "確認事故是否造成人員傷亡，涉及刑事責任。", points: ["即使當下感覺沒事，也應回答「感覺身體不適，需要去醫院檢查」。", "務必當天就醫並開立診斷證明。"], trap: "當下回答「沒受傷」，事後才發現有內傷或痠痛，將極難證明傷勢與本次車禍有關，影響求償與理賠。" },
+            { q: "Q13: 對肇車輛駕駛人、乘客是否受傷？受傷情形為何？", goal: "了解對方傷亡情況，涉及刑事責任。", points: ["描述您觀察到的情況，如「對方表示頭部有些暈眩」或「我看到對方的乘客手部有擦傷」。", "不確定時，回答「不確定」或「未察覺」。"], trap: "若對方確實受傷而您聲稱未見，可能被認為未盡救助義務或刻意隱瞞，影響法律責任判斷。" },
+            { q: "Q14: 傷害係告訴乃論...您是否瞭解？", goal: "依法告知您的法律權利。", points: ["回答「瞭解」。", "務必記住，若有受傷，可在「知悉犯人時起」6個月內提出過失傷害告訴。", "告知員警目前意向，例如「我會保留法律追訴權」。"], trap: "誤以為「保留法律追訴權」有法律效力，或錯過6個月告訴期，將喪失透過刑事程序向對方施壓以利和解的籌碼。" },
+            { q: "Q15: 現場（草）圖是否正確？", goal: "確認您對警方繪製的事故現場圖沒有異議。", points: ["仔細核對圖上的車輛位置、行向、標線、撞擊點是否與事實相符。", "有任何不符之處，應立即向警方反應並要求更正。"], trap: "草圖是初判表和鑑定的重要依據，一旦簽名確認，錯誤的現場圖將對您極為不利。" },
+            { q: "Q16: 以上所言是否實在？有無補充？", goal: "給您最後確認及補充說明的機會。", points: ["再次快速瀏覽全部筆錄內容。", "若有任何遺漏或想強調的事，可在此時補充，例如「我想補充，對方的車速非常快」。"], trap: "輕率地回答「沒有」並簽名，等於放棄了最後補救筆錄內容的機會。" }
         ];
 
 
@@ -613,91 +592,70 @@
         const statementHandlingContainer = document.getElementById('statement-handling-accordion-container'); // New container for statement handling
 
         // Helper function to render accordion items
-        function renderAccordionItems(container, data) {
+        function renderAccordionItems(container, data, isPoliceQa = false) {
             data.forEach(item => {
                 const accordionItem = document.createElement('div');
-                accordionItem.className = 'accordion-item bg-white rounded-lg shadow-sm mb-4';
-                accordionItem.innerHTML = `
-                    <div class="accordion-header flex justify-between items-center p-6">
-                        <div class="flex items-center">
-                            <i class="fas ${item.icon} text-calm-blue-custom text-xl w-8"></i>
-                            <h3 class="text-xl font-bold text-deep-gray">${item.title}</h3>
+                accordionItem.className = 'accordion-item bg-white rounded-lg shadow-sm mb-4' + (isPoliceQa ? ' police-qa-accordion-item' : '');
+                
+                // For police QA, use button for header
+                if (isPoliceQa) {
+                    accordionItem.innerHTML = `
+                        <button class="accordion-button w-full text-left p-4 flex justify-between items-center bg-light-blue-custom hover:bg-opacity-80 transition-colors rounded-t-lg">
+                            <span class="font-bold text-base text-calm-blue-custom">${item.q}</span>
+                            <span class="arrow-icon text-calm-blue-custom">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                </svg>
+                            </span>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-4 pt-0">
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-calm-blue-custom mb-1">💡 警方的目的</h4>
+                                    <p class="text-gray-700">${item.goal}</p>
+                                </div>
+                                <div class="mb-4">
+                                    <h4 class="font-bold text-calm-blue-custom mb-1">✅ 應對重點</h4>
+                                    <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                        ${item.points.map(p => `<li>${p}</li>`).join('')}
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-bold mb-1" style="color:var(--color-red-warning);">⚠️ 常見陷阱</h4>
+                                    <p class="text-gray-700">${item.trap}</p>
+                                </div>
+                            </div>
                         </div>
-                        <i class="fas fa-chevron-down accordion-chevron text-gray-400"></i>
-                    </div>
-                    <div class="accordion-content text-medium-gray">
-                        ${item.content}
-                    </div>
-                `;
+                    `;
+                } else { // For general accordion items, use div for header
+                    accordionItem.innerHTML = `
+                        <div class="accordion-header flex justify-between items-center p-6">
+                            <div class="flex items-center">
+                                <i class="fas ${item.icon} text-calm-blue-custom text-xl w-8"></i>
+                                <h3 class="text-xl font-bold text-deep-gray">${item.title}</h3>
+                            </div>
+                            <i class="fas fa-chevron-down accordion-chevron text-gray-400"></i>
+                        </div>
+                        <div class="accordion-content text-medium-gray">
+                            ${item.content}
+                        </div>
+                    `;
+                }
                 container.appendChild(accordionItem);
             });
         }
 
         // Render sections
         renderAccordionItems(sceneHandlingContainer, sceneHandlingData);
-        renderAccordionItems(rightsAndDocsContainer, rightsAndDocsData);
-        renderAccordionItems(statementHandlingContainer, statementHandlingData); // Render new section
+        renderAccordionItems(statementHandlingContainer, statementHandlingData); // Render main accordion items for statement handling
 
-
-        // Special handling for the nested police Q&A accordion
+        // Render police Q&A separately into its specific container
         const policeQaAccordionContainer = document.getElementById('police-qa-accordion-container');
         if (policeQaAccordionContainer) {
-            policeQaData.forEach((item, index) => {
-                const accordionItem = document.createElement('div');
-                accordionItem.className = 'accordion-item bg-white rounded-lg shadow-sm overflow-hidden'; // Nested item style
-                
-                const button = document.createElement('button');
-                button.className = 'accordion-button w-full text-left p-4 flex justify-between items-center bg-light-blue-custom hover:bg-opacity-80 transition-colors'; // Nested button style
-                button.innerHTML = `
-                    <span class="font-bold text-base text-calm-blue-custom">${item.q}</span>
-                    <span class="arrow-icon text-calm-blue-custom">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </span>
-                `;
-
-                const content = document.createElement('div');
-                content.className = 'accordion-content';
-                content.innerHTML = `
-                    <div class="mb-4">
-                        <h4 class="font-bold text-calm-blue-custom mb-1">💡 警方的目的</h4>
-                        <p class="text-gray-700">${item.goal}</p>
-                    </div>
-                    <div class="mb-4">
-                        <h4 class="font-bold text-calm-blue-custom mb-1">✅ 應對重點</h4>
-                        <ul class="list-disc list-inside text-gray-700 space-y-1">
-                            ${item.points.map(p => `<li>${p}</li>`).join('')}
-                        </ul>
-                    </div>
-                    <div>
-                        <h4 class="font-bold mb-1" style="color:var(--color-red-warning);">⚠️ 常見陷阱</h4>
-                        <p class="text-gray-700">${item.trap}</p>
-                    </div>
-                `;
-
-                accordionItem.appendChild(button);
-                accordionItem.appendChild(content);
-                policeQaAccordionContainer.appendChild(accordionItem);
-
-                button.addEventListener('click', () => {
-                    const isOpening = !content.classList.contains('active');
-                    // Close other nested accordions
-                    policeQaAccordionContainer.querySelectorAll('.accordion-item').forEach(otherItem => {
-                        if (otherItem !== accordionItem) {
-                            otherItem.classList.remove('active');
-                            otherItem.querySelector('.accordion-content').classList.remove('active');
-                            otherItem.querySelector('.arrow-icon').classList.remove('rotated');
-                        }
-                    });
-
-                    // Toggle current nested accordion
-                    content.classList.toggle('active');
-                    button.querySelector('.arrow-icon').classList.toggle('rotated');
-                    accordionItem.classList.toggle('active'); // Keep the parent item active class in sync
-                });
-            });
+            renderAccordionItems(policeQaAccordionContainer, policeQaData, true); // Pass true for isPoliceQa
         }
+
+        renderAccordionItems(rightsAndDocsContainer, rightsAndDocsData);
 
 
         // Universal accordion click listener for all top-level accordions
@@ -716,6 +674,21 @@
                     item.classList.toggle('active');
                 });
             }
+        });
+
+
+        // Universal click listener for police QA accordions (using .accordion-button for nested ones)
+        document.querySelectorAll('.police-qa-accordion-item .accordion-button').forEach(button => {
+            button.addEventListener('click', () => {
+                const parentAccordionItem = button.closest('.police-qa-accordion-item');
+                const content = parentAccordionItem.querySelector('.accordion-content');
+                const arrowIcon = button.querySelector('.arrow-icon');
+
+                // Toggle active class on content and rotate arrow
+                content.classList.toggle('active');
+                arrowIcon.classList.toggle('rotated');
+                parentAccordionItem.classList.toggle('active'); // Keep parent item active class in sync
+            });
         });
 
 
