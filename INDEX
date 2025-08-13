@@ -94,7 +94,7 @@
 
         <header class="text-center mb-8 md:mb-12 pt-8">
             <h1 class="text-3xl md:text-4xl font-bold text-calm-blue-custom mb-2">交通事故處理綜合指南與筆錄應對</h1>
-            <p class="text-medium-gray text-lg">無人傷亡且車輛尚能行駛時，可依內政部警政署「現場處理五字訣」進行，確保安全、完整紀錄並維護交通暢通。</p>
+            <p class="text-medium-gray text-lg">無人傷亡且車輛尚能行駛時，可依內政部警政署「現場處理-放撥劃移等-五字訣」進行，確保安全、完整紀錄並維護交通暢通。</p>
         </header>
 
         <main class="bg-white rounded-xl shadow-calm overflow-hidden">
