@@ -28,6 +28,11 @@
             background-color: var(--paper);
             color: var(--ink);
             padding-top: 95px; /* Adjusted for fixed header height */
+            /* Add this to prevent accidental text selection if not needed */
+            /* user-select: none; */
+            /* -webkit-user-select: none; */
+            /* -moz-user-select: none; */
+            /* -ms-user-select: none; */
         }
         .text-deep-gray { color: var(--ink); } /* Use ink variable */
         .text-medium-gray { color: #555555; } /* Retain original medium gray if distinct */
@@ -200,9 +205,57 @@
             max-width: 100%;
             height: auto;
         }
+
+        /* Message box for iframe detection */
+        .message-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fff;
+            border: 2px solid var(--brand);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            z-index: 10000;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--ink);
+            max-width: 90%;
+            width: 400px;
+        }
+        .message-box button {
+            background-color: var(--brand);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .message-box button:hover {
+            background-color: #265559; /* darker brand color */
+        }
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 9999;
+        }
     </style>
 </head>
 <body class="bg-paper text-ink">
+
+    <!-- Message box for iframe detection -->
+    <div id="iframe-message-overlay" class="overlay hidden"></div>
+    <div id="iframe-message-box" class="message-box hidden">
+        <p>偵測到本網頁可能在非預期環境中被嵌入。為確保內容完整性與安全性，請直接訪問原始網頁。</p>
+        <button id="iframe-message-close">前往原始頁面</button>
+    </div>
 
     <!-- Fixed Header Container with Copyright and Contact Info and Navigation -->
     <div class="fixed-header-container">
@@ -345,7 +398,7 @@
             { q: "Q5: 當時是否有煞車、閃避或按喇叭？", goal: "了解緊急應變與回避行為。", points: ["若有立即煞車、打方向燈等動作，務必說明。", "強調即時反應，有助降低責任比例。"], trap: "未提及任何反應，會被認定未盡注意義務。" },
             { q: "Q6: 事故後是否有下車查看對方傷勢？", goal: "確認是否有協助義務與肇逃嫌疑。", points: ["若有協助，描述當時動作與對話。", "如有報警或聯絡救護也應說明。"], trap: "未處理即離開現場，可能構成肇事逃逸。" },
             { q: "Q7: 是否有飲酒、用藥、身體不適？", goal: "排除駕駛行為受影響。", points: ["無則明確表示「無飲酒、無用藥、身體狀況良好」。", "若服藥但不影響駕駛，也應如實告知藥品種類。"], trap: "隱匿用藥或不適會影響肇責認定。" },
-            { q: "Q8: 是否與對方發生口角或肢體衝突？", goal: "掌握現場衝突狀況，預防刑責。", points: ["無爭執則明確指出。", "若有，說明緣由並保持中性。"], trap: "情緒化用詞可能被反指。" },
+            { q: "Q8: 是否與對方發生口角或肢體衝突？", goal: "掌握現場衝突狀況，預防刑責。", points: ["無爭執則明確指出。", "C若有，說明緣由並保持中性。"], trap: "情緒化用詞可能被反指。" },
             { q: "Q9: 當時天候與路面狀況為何？", goal: "了解環境對事故影響。", points: ["有雨霧積水應說明，可降低過失程度。", "說明視線遮蔽或路面濕滑等客觀因素。"], trap: "忽略環境因素可能被全歸責於駕駛疏失。" },
             { q: "Q10: 對方車輛當時動態為何？", goal: "確認雙方互動、釐清責任。", points: ["若對方違規或突發舉動，具體說明。", "不確定則說「無法判斷」。"], trap: "臆測對方動作會成為陳述漏洞。" },
             { q: "Q11: 現場是否有監視器或行車記錄器？", goal: "確認客觀影像佐證。", points: ["主動告知紀錄器有無與保存狀態。", "提醒警方調閱特定方向或商家監視器。"], trap: "不主動提供錄影資訊，可能錯失有利證據。" },
@@ -955,7 +1008,8 @@
             e.preventDefault(); // Prevent default copy action
 
             const selectedText = window.getSelection().toString();
-            const copyrightNotice = "\n\n--- 本內容受著作權保護，未經授權禁止轉載與複製 ---\n來源：交通事故處理綜合指南 https://your-website-url.com (此為範例網址，請替換為實際網址)\n"; // Customize your notice
+            // Customize your notice - IMPORTANT: Update the URL to your actual GitHub Pages URL
+            const copyrightNotice = "\n\n--- 本內容受著作權保護，未經授權禁止轉載與複製 ---\n來源：交通事故處理綜合指南 https://roxie-hub.github.io/traffic-Open-Bite-Correction0814/\n";
 
             // Set the new clipboard data
             if (e.clipboardData) {
@@ -965,6 +1019,30 @@
                 window.clipboardData.setData('Text', selectedText + copyrightNotice);
             }
         });
+
+        // Detect if page is embedded in an iframe and display a message
+        function detectIframeAndWarn() {
+            // Check if window.self is not the top window (meaning it's in an iframe)
+            if (window.self !== window.top) {
+                const messageBox = document.getElementById('iframe-message-box');
+                const overlay = document.getElementById('iframe-message-overlay');
+                const closeButton = document.getElementById('iframe-message-close');
+
+                if (messageBox && overlay && closeButton) {
+                    messageBox.classList.remove('hidden');
+                    overlay.classList.remove('hidden');
+
+                    closeButton.addEventListener('click', () => {
+                        // Redirect to the original page URL when button is clicked
+                        // IMPORTANT: Replace this with your actual GitHub Pages URL
+                        window.top.location.href = "https://roxie-hub.github.io/traffic-Open-Bite-Correction0814/";
+                    });
+                }
+            }
+        }
+
+        // Call the iframe detection function when the DOM is loaded
+        document.addEventListener('DOMContentLoaded', detectIframeAndWarn);
 
 
         // --- Event Listeners for all Accordions ---
