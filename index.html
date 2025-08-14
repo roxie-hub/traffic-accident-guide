@@ -19,7 +19,7 @@
             font-family: 'Noto Sans TC', sans-serif;
             background-color: #F8F7F4; /* 淺米色背景 */
             color: #3C3633; /* 深棕色文字 */
-            padding-top: 100px; /* Adjust body padding to account for fixed header */
+            padding-top: 95px; /* Adjusted to account for the new copyright line and previous fixed header components */
         }
         /* 定義主要配色變量 */
         :root {
@@ -79,13 +79,21 @@
             z-index: 1000;
             background-color: var(--color-bg-accent-main); /* Match main navigation color */
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-            padding-bottom: 8px; /* Add some space below contact info */
+            padding-bottom: 0; /* Let child elements control their own vertical space */
+        }
+        .copyright-notice {
+            text-align: left; /* User requested left alignment */
+            color: #FFFFF0; /* Brighter, almost white color for better contrast on dark green */
+            font-size: 0.7rem; /* Smaller font size */
+            padding: 4px 16px 2px 16px; /* py-1 ~ 4px vert padding, px-4 ~ 16px horiz padding */
+            width: 100%; /* Ensure it spans full width */
+            background-color: #2E6C71; /* Use the accent main color as background for copyright to match header */
         }
         .contact-info-top {
             text-align: center;
             color: white; /* Text color for contact info */
-            padding-top: 8px;
-            padding-bottom: 4px;
+            padding-top: 4px; /* Slight padding after copyright */
+            padding-bottom: 4px; /* Padding before nav */
         }
         .contact-info-top p {
             font-size: 0.9rem; /* Smaller font for top bar */
@@ -133,7 +141,8 @@
         .fixed-nav .flex-wrap {
             flex-wrap: nowrap; /* Prevent wrapping */
             overflow-x: auto; /* Allow horizontal scrolling if buttons are too wide */
-            justify-content: space-between; /* Distribute space evenly */
+            justify-content: center; /* Center buttons on desktop */
+            gap: 1.5rem; /* Increased gap for desktop, acts as space-x-4/8 */
         }
         /* Ensure consistent icon size within buttons */
         .fixed-nav button .fas {
@@ -157,18 +166,36 @@
                 font-size: 0.8rem; /* Even smaller font for contact info on very small screens */
             }
         }
+
+        /* Adjustments for the main H1 title */
+        header h1 {
+            word-break: keep-all; /* Prevent breaking words */
+            white-space: normal; /* Allow wrapping of the text as a whole */
+            line-height: 1.2; /* Adjust line height for better display on multiple lines if needed */
+            font-size: 2.5rem; /* Slightly larger for impact on desktop */
+            margin-top: 0; /* Remove top margin that might push it down */
+        }
+        @media (max-width: 767px) {
+            header h1 {
+                font-size: 2rem; /* Smaller for mobile to fit */
+            }
+        }
     </style>
 </head>
 <body class="bg-cream text-deep-gray">
 
-    <!-- Fixed Header Container with Contact Info and Navigation -->
+    <!-- Fixed Header Container with Copyright and Contact Info and Navigation -->
     <div class="fixed-header-container">
+        <!-- Copyright Notice at the very top -->
+        <div class="copyright-notice">
+            【版權所有 &copy; 2025 菁 RoxieStudio. 未經授權請勿複製、轉載、引用。】
+        </div>
         <div class="contact-info-top">
             <p>諮詢專線：<span class="name-phone">富邦人壽/產險-潘姿菁 0923-660817</span></p>
             <p>富邦產險服務電話: 0800-009888</p>
         </div>
         <div class="fixed-nav bg-calm-blue-custom w-full py-3">
-            <div class="container mx-auto px-4 flex flex-wrap justify-center space-x-4 md:space-x-8">
+            <div class="container mx-auto px-4 flex flex-wrap justify-center md:space-x-8">
                 <button onclick="scrollToSection('事故現場處理')">
                     <i class="fas fa-car-crash"></i>現場處理
                 </button>
@@ -193,13 +220,13 @@
             <!-- Main Navigation Buttons Section (These are the big buttons in the middle of the page) -->
             <section class="mb-12 p-6">
                 <div class="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-4">
-                    <button onclick="scrollToSection('事故現場處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                    <button onclick="scrollToSection('事故現場處理')">
                         <i class="fas fa-car-crash mr-3"></i>事故現場處理
                     </button>
-                    <button onclick="scrollToSection('筆錄應對核心策略')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                    <button onclick="scrollToSection('筆錄應對核心策略')">
                         <i class="fas fa-clipboard-list mr-3"></i>筆錄應對核心策略
                     </button>
-                    <button onclick="scrollToSection('權益與文件處理')" class="w-full md:w-auto px-8 py-4 bg-calm-blue-custom text-white text-lg font-bold rounded-lg shadow-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105">
+                    <button onclick="scrollToSection('權益與文件處理')">
                         <i class="fas fa-balance-scale mr-3"></i>權益與文件處理
                     </button>
                 </div>
@@ -314,7 +341,7 @@
                     <ol class="list-decimal list-inside space-y-4 text-medium-gray">
                         <li><strong>全程確保安全：</strong>拍攝與移車時，務必先確認自身及乘客安全，避免站在車道中間或有來車方向。可請乘客或其他駕駛協助警示，防止二次事故發生。</li>
                         <li><strong>放置警告標誌：</strong>在事故車輛後方適當距離（一般道路約 30–50 公尺，高速公路約 100 公尺以上）放置故障標誌。標誌須朝向來車方向，提醒後方車輛減速避讓。</li>
-                        <li><strong>拍攝全景：</strong>以標線為基準，確保照片中可清楚看見路面標線。從前、後方向各拍一張，將事故車輛與周邊設施（如交通號誌、路牌、電線桿、護欄等）一併納入畫面。拍攝時應涵蓋現場車輛、路面痕跡、散落物等。</li>
+                        <li><strong>拍攝全景：：</strong>以標線為基準，確保照片中可清楚看見路面標線。從前、後方向各拍一張，將事故車輛與周邊設施（如交通號誌、路牌、電線桿、護欄等）一併納入畫面。拍攝時應涵蓋現場車輛、路面痕跡、散落物等。</li>
                         <li><strong>多角度細部拍攝：</strong>從前、後、左、右四個方向分別拍攝事故車輛全景。
                             <p class="font-semibold mt-2 ml-4">特寫拍攝：</p>
                             <ul class="list-disc list-inside ml-8 text-sm">
@@ -799,6 +826,7 @@
             });
         });
 
+        // Removed the previous JavaScript for dynamic agent info as per user request.
     </script>
 </body>
 </html>
