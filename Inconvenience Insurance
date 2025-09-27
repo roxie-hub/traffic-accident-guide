@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <!-- 啟用 CDN 樣式，但核心功能分離處理 -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>旅遊不便險｜頂部固定與行前準備清單</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 基礎 CSS：保持手機大字體與留白優化 */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+            background-color: #f8f9fa;
+            padding-top: 100px;
+        }
+
+        @media (min-width: 640px) { body { padding-top: 110px; } }
+        @media (min-width: 768px) { body { padding-top: 100px; } }
+
+        /* 導覽列激活狀態 */
+        .nav-item.active {
+            background-color: #0ea5e9; /* sky-600 */
+            color: white;
+            font-weight: 600;
+        }
+        
+        /* 隱藏/顯示內容 */
+        .content-section {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .content-section.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* 視覺元素 */
+        .icon { font-size: 1.5rem; line-height: 1; }
+        .mobile-dropdown {
+            border: 1px solid #cbd5e1;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            width: 100%;
+            font-size: 1rem;
+            background-color: white;
+            appearance: none; 
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none'%3E%3Cpath d='M7 7l3 3 3-3' stroke='%23333' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px;
+        }
+
+        /* 替換 ** 的關鍵強調樣式 */
+        .key-emphasis {
+            font-weight: bold;
+            color: #c0392b; 
+        }
+
+        /* 桌面導覽列滾動條隱藏 */
+        .desktop-nav-scroll { -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+        .desktop-nav-scroll::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="text-gray-800 antialiased">
+<!-- CHT_INFO_START: Travel Insurance Guide Web Application -->
+
+    <!-- Fixed Header -->
+    <header id="F_HDR" class="fixed top-0 left-0 right-0 z-20 bg-white shadow-xl">
+        <div class="container mx-auto max-w-7xl px-3 py-4 sm:px-6">
+            
+            <!-- Title -->
+            <div class="text-center mb-4">
+                <h1 class="text-2xl sm:text-3xl font-extrabold text-sky-700">✈️ 旅遊不便險互動指南</h1>
+            </div>
+
+            <!-- Navigation Area (Responsive Switch) -->
+            <nav>
+                <!-- Mobile Dropdown (Visible on <md) -->
+                <div class="md:hidden">
+                    <label for="mobile-select" class="sr-only">選擇險種</label>
+                    <select id="mobile-select" class="mobile-dropdown focus:ring-sky-500 focus:border-sky-500">
+                        <!-- CHT_OPT_START -->
+                        <option value="C_LST">✔ 行前準備清單 (必看)</option>
+                        <option value="A_TRPC">旅程取消保險</option>
+                        <option value="B_FLTD">班機延誤保險</option>
+                        <option value="C_TRPA">旅程更改保險</option>
+                        <option value="D_BAGL">行李損失保險</option>
+                        <option value="E_BAGD">行李延誤保險</option>
+                        <option value="F_TRVD">旅行文件損失保險</option>
+                        <option value="G_MOBT">行動電話被竊損失保險</option>
+                        <option value="H_DIVN">改降非原定機場費用保險</option>
+                        <option value="I_MEDX">海外突發疾病醫療</option>
+                        <option value="J_SOSX">緊急救援服務</option>
+                        <option value="K_HMTH">居家竊盜損失補償</option>
+                        <option value="L_HMFR">居家火災臨時住宿補償</option>
+                        <!-- CHT_OPT_END -->
+                    </select>
+                </div>
+                <!-- CHT_COMMENT: Separator between mobile and desktop nav definitions. -->
+
+                <!-- Desktop/Tablet Scrollable Buttons (Visible on >=md) -->
+                <div id="D_NavS" class="hidden md:flex desktop-nav-scroll overflow-x-auto justify-start space-x-2 pb-1">
+                    <!-- Nav Items with custom inline styling for better obfuscation -->
+                    <button data-target="C_LST" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 whitespace-nowrap bg-emerald-50 text-emerald-800 font-bold" style="border: 1px solid #d1d5db;">✔ 行前準備清單</button>
+                    <!-- CHT_COMMENT: This item represents the main checklist view. -->
+                    <button data-target="A_TRPC" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap" style="color: #333;">旅程取消保險</button>
+                    <button data-target="B_FLTD" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap" style="background-color: #ffffff;">班機延誤保險</button>
+                    <button data-target="C_TRPA" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">旅程更改保險</button>
+                    <button data-target="D_BAGL" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">行李損失保險</button>
+                    <button data-target="E_BAGD" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">行李延誤保險</button>
+                    <button data-target="F_TRVD" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">旅行文件損失</button>
+                    <button data-target="G_MOBT" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">行動電話被竊</button>
+                    <button data-target="H_DIVN" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">改降非原定機場</button>
+                    <button data-target="I_MEDX" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">海外突發疾病</button>
+                    <button data-target="J_SOSX" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">緊急救援服務</button>
+                    <button data-target="K_HMTH" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">居家竊盜損失</button>
+                    <button data-target="L_HMFR" class="nav-item flex-shrink-0 text-left p-2 text-xs sm:text-sm rounded-lg transition-colors duration-200 hover:bg-sky-100 whitespace-nowrap">居家火災補償</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- CHT_COMMENT: End of fixed navigation header definition. -->
+
+    <!-- Main Content Display Container -->
+    <main id="C_CNTR" class="container mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+        
+        <!-- NEW: Comprehensive Pre-Trip Checklist -->
+        <div id="C_LST" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-emerald-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-emerald-700 mb-6 border-b pb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📋</span>✈️ 行前準備整合清單 (Pre-Trip Checklist)</h2>
+            <p class="text-lg text-gray-600 mb-6 text-base">這是一個整合了所有險種準備事項的清單，確保您在出發前已做好所有保險理賠必須的文件準備和資訊確認。</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                
+                <div class="p-4 bg-emerald-50 rounded-lg shadow-inner">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3">💰</span>財務與預訂文件 (取消/更改險)</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>保留所有預繳團費、交通、住宿及票券之費用<span class="key-emphasis">【單據正本】</span>。</li>
+                        <li>保留旅行契約或交通工具之購票證明。</li>
+                        <li>確認事故發生期間須為預定海外旅程開始前 <span class="key-emphasis">【七日】</span> 至旅行期間開始前。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-emerald-50 rounded-lg shadow-inner">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3">🩺</span>醫療與緊急服務準備 (突發疾病險)</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>儲存保險公司的<span class="key-emphasis">【海外緊急救援專線】</span>。</li>
+                        <li>若前往申根公約國，需開立 <span class="key-emphasis">【申根地區醫療旅遊保險英文憑證】</span>。</li>
+                        <li>確認突發疾病須是在賠償責任期間開始日前 <span class="key-emphasis">【180 天內】</span> 未曾接受診療的疾病。</li>
+                    </ul>
+                </div>
+                
+                <div class="p-4 bg-emerald-50 rounded-lg shadow-inner">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3">🧳</span>行李與財物保護 (延誤/損失/手機險)</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>務必隨身保管 <span class="key-emphasis">【託運行李領取單 (Baggage Tag)】</span>。</li>
+                        <li>記錄行動電話的型號、序號或購買證明（手機被竊險僅承保 <span class="key-emphasis">【強盜、搶奪及竊盜】</span>，不保遺失）。</li>
+                        <li>拍照記錄行李箱的外觀、內容物清單，並儘量保留貴重物品的購買證明。</li>
+                        <li>旅行文件（護照、簽證）應有影本或電子檔備份，並確保備份文件與正本<span class="key-emphasis">【分開存放】</span>。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-emerald-50 rounded-lg shadow-inner">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3">🏡</span>住家安全確認 (居家竊盜/火災險)</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>確認保險單所載明的住居所地址。</li>
+                        <li>留意居家竊盜/火災的承保期間為<span class="key-emphasis">【旅行期間】</span>。</li>
+                    </ul>
+                </div>
+
+                <div class="p-4 bg-emerald-50 rounded-lg shadow-inner md:col-span-2">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3">✈️</span>航班與風險確認 (延誤/改降險)</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>記錄預定航班的準確出發時間及航班編號。</li>
+                        <li>確認投保時該班機<span class="key-emphasis">【並未宣布或已發生罷工】</span> (影響班機延誤險)。</li>
+                        <li>了解改降非原定機場定額給付<span class="key-emphasis">【不包括】</span>因加油、臨時停靠或返回起飛機場。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHT_COMMENT: Begin individual insurance detail sections. -->
+        
+        <div id="A_TRPC" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">旅程取消保險 (Trip Cancellation)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>保留所有預繳團費、交通、住宿及票券之費用<span class="key-emphasis">【單據正本】</span>。</li>
+                        <li>保留旅行契約或交通工具之購票證明。</li>
+                        <li>確認事故發生期間須為預定海外旅程開始前 <span class="key-emphasis">【七日】</span> 至旅行期間開始前。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>儘速通知保險公司。</li>
+                        <li>立即聯繫相關業者，確認已預繳費用無法退款。</li>
+                        <li>根據事故原因，向政府機關、醫院或相關單位取得正式證明文件。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>損失費用單據正本。</li>
+                        <li>預繳費用無法獲得退款之證明文件。</li>
+                        <li>依不同原因，提供死亡/病危證明、司法機關傳票、業者/政府事故證明等。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li><span class="key-emphasis">【僅理賠已預繳且無法退還的費用】</span>，若航空公司已全額退款，則無法申請理賠。</li>
+                        <li>若因住居所火災或天災毀損，通常損失須達一定金額門檻（如新臺幣二十五萬元）才符合理賠條件。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="B_FLTD" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">班機延誤保險 (Flight Delay)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>記錄預定航班的準確出發時間及航班編號。</li>
+                        <li>確認延誤須達 <span class="key-emphasis">【四小時】</span> 以上。</li>
+                        <li>確認投保時該班機<span class="key-emphasis">【並未宣布或已發生罷工】</span>。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>向航空公司櫃檯或地勤人員確認延誤事實。</li>
+                        <li>務必向航空公司索取並保管好「班機延誤證明」。</li>
+                        <li>若有必要，可向航空公司洽詢餐食、住宿等後續安排。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>機票及登機證或航空業者出具之搭機證明。</li>
+                        <li>航空業者所出具載有班機延誤期間之證明。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>大部分保險公司 <span class="key-emphasis">【不賠償從居住國出發】</span> 的班機延誤。</li>
+                        <li>消費時間點需在 <span class="key-emphasis">【原定班機起飛時間之後】</span>，且僅理賠必要性支出。</li>
+                        <li>部分網路投保的「快捷理賠」服務可簡化流程，可事先確認。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="C_TRPA" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">旅程更改保險 (Trip Alteration)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>準備預定行程之相關證明文件。</li>
+                        <li>留意增加的交通或住宿費用，以原預定之 <span class="key-emphasis">【同等級】</span> 費用為限。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>儘速通知保險公司。</li>
+                        <li>立即與相關業者聯繫並取得事故證明。</li>
+                        <li>保留所有因更改行程而增加的交通及住宿費用單據正本。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                     <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>費用單據正本。</li>
+                        <li>預定行程之相關證明文件。</li>
+                        <li>依不同原因，提供業者/政府事故證明、親屬死亡/關係證明、警方遺失證明等。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li><span class="key-emphasis">【同一事故僅能選擇旅程更改或班機延誤擇一理賠】</span>。</li>
+                        <li>增加的交通或住宿費用，以 <span class="key-emphasis">【原預定之同等級】</span> 費用為限。</li>
+                        <li>應保留所有證明原訂行程的文件，以證明更改的必要性。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="D_BAGL" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">行李損失保險 (Baggage Loss)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>拍照記錄行李箱的外觀、尺寸、品牌與顏色。</li>
+                        <li>製作行李內容物清單，並儘量保留貴重物品的購買證明。</li>
+                        <li>物品須置於行李箱、手提箱或類似容器內才承保。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>若因託運遺失或毀損，立即向航空公司辦理「行李事故申報」（PIR），並取得申報文件。</li>
+                        <li>若因竊盜/搶奪，須在 <span class="key-emphasis">【24 小時內】</span> 向當地警政單位報案並取得報案證明。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>若因竊盜/搶奪：<span class="key-emphasis">【24 小時內】</span>向當地警政單位報案證明。</li>
+                        <li>若因託運失當：公共交通工具業者所開立之事故與損失證明。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>保險理賠範圍通常為「置於行李箱內之個人物品」，<span class="key-emphasis">【不保行李箱本身】</span> 的毀損。</li>
+                        <li>部分貴重物品（如珠寶、古董、手機等）通常為除外不保事項。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="E_BAGD" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">行李延誤保險 (Baggage Delay)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>務必隨身保管 <span class="key-emphasis">【託運行李領取單 (Baggage Tag)】</span>。</li>
+                        <li>延誤須在抵達目的地 <span class="key-emphasis">【六小時】</span> 後仍未領得。</li>
+                        <li>不賠償返回中華民國境內機場的行李延誤。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>抵達目的地後，若行李未按時到達，立即前往航空公司或地勤櫃檯辦理「行李事故申報」（PIR）。</li>
+                        <li>務必向航空公司取得 <span class="key-emphasis">【行李延誤超過六小時】</span> 的書面證明文件。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>公共交通工具業者所出具行李延誤達六小時以上之文件。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠通常為 <span class="key-emphasis">【定額給付】</span>。</li>
+                        <li>通常<span class="key-emphasis">【不賠償】</span> <span class="key-emphasis">【返回中華民國境內機場】</span> 的行李延誤。</li>
+                        <li>部分保險公司不理賠尚未發現行李延誤前所購買的物品。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="F_TRVD" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">旅行文件損失保險 (Travel Document Loss)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>護照、簽證等旅行文件應有影本或電子檔備份。</li>
+                        <li>確保備份文件與正本<span class="key-emphasis">【分開存放】</span>。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>在事故發生後 <span class="key-emphasis">【24 小時內】</span> 向當地警政單位報案，取得報案證明。</li>
+                        <li>聯繫當地我國代表處或辦事處，辦理旅行文件補發事宜。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>事故發生後 <span class="key-emphasis">【24 小時內】</span>向警方報案證明。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>投保前需確認是定額給付或實支實付。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="G_MOBT" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">行動電話被竊損失保險 (Mobile Phone Theft Loss)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>記錄行動電話的型號、序號或購買證明。</li>
+                        <li>此險種僅承保 <span class="key-emphasis">【強盜、搶奪及竊盜】</span>，不承保遺失。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>在事故發生後 <span class="key-emphasis">【24 小時內】</span> 向當地警政單位報案，取得刑事報案證明。</li>
+                        <li>儘速聯繫電信公司停話。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>被保險人身分證明文件。</li>
+                        <li>警察機關刑事報案證明。</li>
+                        <li>如必要，提供行動電話購買證明文件或證據。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠金額通常不得超過滅失時的實際價值。</li>
+                        <li>報案時應清楚註明手機型號與序號。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="H_DIVN" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">改降非原定機場費用保險 (Diversion Expense)</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>了解此定額給付<span class="key-emphasis">【不包括】</span>因加油、臨時停靠或返回起飛機場。</li>
+                        <li>賠償期間內以給付二次為限。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>向航空公司地勤人員確認改降事實。</li>
+                        <li>向航空公司索取並保管好 <span class="key-emphasis">【改降非原定機場的書面證明】</span>。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>航空公司出具之證明文件。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li><span class="key-emphasis">【需在國外搭乘飛機時發生】</span>，不賠償從台灣出發的航班。</li>
+                        <li>理賠以「改降」為主要原因，非因其他原因而中途臨時停靠。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="I_MEDX" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">海外突發疾病醫療 (Medical Insurance)</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>若前往申根公約國，需開立 <span class="key-emphasis">【申根地區醫療旅遊保險英文憑證】</span>。</li>
+                        <li>確認突發疾病須是在賠償責任期間開始日前 <span class="key-emphasis">【180 天內】</span> 未曾接受診療的疾病。</li>
+                        <li>了解若投保「醫療加值型或申根計畫適用」方案，國際SOS可提供醫療費用代墊服務。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>儘速就醫，並保留所有醫療單據。</li>
+                        <li>妥善保管醫療診斷書或住院證明。</li>
+                        <li>若為急難狀況，立即撥打富邦產險海外緊急救援專線。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>醫療診斷書或住院證明。</li>
+                        <li>被保險人有效護照及出入境資料。</li>
+                        <li>醫療費用收據。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠僅限於在 <span class="key-emphasis">【海外旅行期間】</span> 內發生的突發疾病。</li>
+                        <li>國外醫療費用通常高昂，建議將保額買高。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="J_SOSX" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">緊急救援服務 (SOS Assistance)</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>儲存富邦產險海外緊急救援專線。</li>
+                        <li>了解醫療轉送費用由保險公司在限額內負擔，其他協助服務費用可能需自行負擔。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>發生急難狀況時，儘速撥打富邦產險海外緊急救援專線。</li>
+                        <li>告知服務中心您的保單資訊及所在位置，並依指示行動。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>事故發生之相關證明文件（必要時）。</li>
+                        <li>費用單據。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>此為附加服務，而非理賠項目。</li>
+                        <li>服務內容如醫療轉送、遺體運回等，通常會有 <span class="key-emphasis">【限額】</span> 規定。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="K_HMTH" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">居家竊盜損失補償 (Home Theft Compensation)</h2>
+             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>確認保險單所載明的住居所地址。</li>
+                        <li>留意承保期間為<span class="key-emphasis">【旅行期間】</span>。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>發現竊盜事故後，立即向當地警察機關報案。</li>
+                        <li>取得警察機關開立的 <span class="key-emphasis">【報案證明】</span>。</li>
+                        <li>儘速通知保險公司。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>警察機關報案證明。</li>
+                        <li>保險標的物相關購買證明（必要時）。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>承保期間通常為旅行期間，且須在保單所載明的住居所地址發生。</li>
+                        <li>報案證明上需清楚列出遭竊物品清單。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div id="L_HMFR" class="content-section bg-white p-4 sm:p-8 rounded-xl shadow-lg border-t-4 border-sky-500">
+            <h2 class="text-xl sm:text-2xl font-bold text-sky-700 mb-6 border-b pb-3">居家火災臨時住宿補償 (Home Fire Compensation)</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-8">
+                <div class="p-4 bg-sky-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-sky-800 mb-3 flex items-center"><span class="icon mr-3 text-sky-500">✅</span>出國前準備事項/紀錄</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>確認保險單所載明的住居所地址。</li>
+                        <li>事故發生後<span class="key-emphasis">【五日內】</span>通知保險公司。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-amber-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-amber-800 mb-3 flex items-center"><span class="icon mr-3 text-amber-500">📞</span>事故發生後處理程序</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>事故發生後，立即向當地消防或警察機關報案。</li>
+                        <li>取得相關事故證明。</li>
+                        <li>儘速通知保險公司並依其指示處理後續事宜。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-emerald-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-emerald-800 mb-3 flex items-center"><span class="icon mr-3 text-emerald-500">📜</span>事故後需檢附/取得文件</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>理賠申請書。</li>
+                        <li>事故發生之相關證明。</li>
+                        <li>警察機關處理證明文件（必要時）。</li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-red-50 rounded-lg">
+                    <h3 class="font-bold text-lg sm:text-xl text-red-800 mb-3 flex items-center"><span class="icon mr-3 text-red-500">🚨</span>注意事項</h3>
+                    <ul class="list-disc pl-6 text-lg text-gray-700 space-y-2">
+                        <li>事故發生後應於保單約定時間內（如<span class="key-emphasis">【五日內】</span>）通知保險公司。</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- CHT_COMMENT: This is a redundant spacer element used to interfere with simple code analysis. -->
+        <div id="end-spacer-2" class="h-10 invisible" style="padding-top: 15px;"></div>
+    </main>
+
+    <!-- CHT_COMMENT: Begin Obfuscated JavaScript Core Logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 變數名稱混淆：原 mobileSelect
+            const A_SelM = document.getElementById('mobile-select'); 
+            // 變數名稱混淆：原 desktopNavScroll
+            const B_NavD = document.getElementById('D_NavS'); 
+            // 變數名稱混淆：原 desktopNavItems
+            const C_ItemsD = B_NavD.querySelectorAll('.nav-item');
+            // 變數名稱混淆：原 contentContainer
+            const D_Cont = document.getElementById('C_CNTR');
+            // 變數名稱混淆：原 contentSections
+            const E_Sects = D_Cont.querySelectorAll('.content-section');
+
+            // 核心功能混淆：A_showC(targetId) 原 showContent(targetId)
+            function A_showC(z_tId) {
+                
+                // 1. Update Navigation State (Highlight Active Tab/Select)
+                
+                // Update Desktop Buttons
+                C_ItemsD.forEach(v_item => {
+                    v_item.classList.remove('active');
+                    v_item.classList.remove('bg-sky-600', 'text-white', 'bg-emerald-600');
+                    
+                    // Reset specific styling for the checklist button
+                    if (v_item.dataset.target === 'C_LST') {
+                        v_item.classList.remove('bg-emerald-600', 'text-white');
+                        v_item.classList.add('bg-emerald-50', 'text-emerald-800', 'font-bold');
+                    } else {
+                        v_item.classList.remove('bg-emerald-50', 'text-emerald-800', 'font-bold');
+                    }
+
+                    // CHT_COMMENT: Checking if data-target matches the selected ID for activation logic.
+                    if (v_item.dataset.target === z_tId) {
+                        v_item.classList.add('active');
+                        // Apply active color
+                        if (z_tId === 'C_LST') {
+                            v_item.classList.add('bg-emerald-600', 'text-white');
+                            v_item.classList.remove('bg-emerald-50');
+                        } else {
+                            v_item.classList.add('bg-sky-600', 'text-white');
+                        }
+                        // Scroll active item into view for desktop horizontal nav UX
+                        if (window.innerWidth >= 768) {
+                            v_item.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        }
+                    }
+                });
+
+                // Update Mobile Select
+                A_SelM.value = z_tId;
+
+                // 2. Update Content State (Show/Hide/Animate)
+                E_Sects.forEach(v_section => {
+                    // CHT_COMMENT: Toggle visibility based on the obfuscated ID.
+                    if (v_section.id === z_tId) {
+                        v_section.classList.add('active');
+                        // Scroll to the top of the content area
+                        D_Cont.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    } else {
+                        v_section.classList.remove('active');
+                    }
+                });
+            }
+
+            // Event Listener for Mobile Select
+            A_SelM.addEventListener('change', function(v_event) {
+                A_showC(v_event.target.value);
+            });
+
+            // Event Listener for Desktop Buttons
+            B_NavD.addEventListener('click', function(v_event) {
+                if (v_event.target && v_event.target.matches('.nav-item')) {
+                    const z_tId = v_event.target.dataset.target;
+                    A_showC(z_tId);
+                }
+            });
+            
+            // Set initial active state to the first item (Checklist)
+            A_showC('C_LST');
+        });
+    </script>
+    <!-- CHT_INFO_END: Obfuscated and Protected Code End -->
+</body>
+</html>
